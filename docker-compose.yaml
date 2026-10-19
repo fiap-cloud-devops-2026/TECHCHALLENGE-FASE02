@@ -1,0 +1,38 @@
+services:
+  auth-app:
+    build: ./auth-service-main
+    ports:
+     - "8001:8001"
+    volumes:
+     - .:/app
+    environment:
+      PORT: "8001"
+      DATABASE_URL: postgres://auth_user:local_dev_password@auth-db:5432/auth_db?sslmode=disable
+      MASTER_KEY: local_dev_master_key_change_me
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  auth-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: local_dev_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./auth-service-main/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+
+volumes:
+  postgres_data:
+
+
+
+        
