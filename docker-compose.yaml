@@ -7,7 +7,7 @@ services:
      - .:/app
     environment:
       PORT: "8001"
-      DATABASE_URL: postgres://auth_user:local_dev_password@auth-db:5432/auth_db?sslmode=disable
+      DATABASE_URL: "postgres://auth_user:local_dev_password@auth-db:5432/auth_db?sslmode=disable"
       MASTER_KEY: local_dev_master_key_change_me
     depends_on:
       auth-db:
