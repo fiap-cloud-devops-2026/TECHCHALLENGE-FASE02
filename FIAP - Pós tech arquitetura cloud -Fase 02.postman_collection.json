@@ -1,0 +1,524 @@
+{
+  "info": {
+    "_postman_id": "8f4209f8-e7ff-4697-a1d2-6f07a79e6920",
+    "name": "FIAP - Pós tech arquitetura cloud -Fase 02",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "24169768"
+  },
+  "item": [
+    {
+      "name": "auth-service",
+      "item": [
+        {
+          "name": "Auth - criar chave de API",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{MASTER_KEY}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"flag-service-key\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url_auth}}/admin/keys",
+              "host": [
+                "{{base_url_auth}}"
+              ],
+              "path": [
+                "admin",
+                "keys"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Auth - Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_auth}}/health",
+              "host": [
+                "{{base_url_auth}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Auth - Validar chave",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "tm_key_c0b305582aaeb6be6e69f4a092fb66f33fc347dc05d86dd49af9727636d6d2b5",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_auth}}/validate",
+              "host": [
+                "{{base_url_auth}}"
+              ],
+              "path": [
+                "validate"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Flag-service",
+      "item": [
+        {
+          "name": "Flag - Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_flag}}/health",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Flag - Criar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{flag-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"flag-teste\",\r\n  \"description\": \"Flag para teste da collection\",\r\n  \"is_enabled\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url_flag}}/flags",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "flags"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Flag - Listar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{flag-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_flag}}/flags",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "flags"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Flag - Buscar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{flag-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_flag}}/flags/flag-teste",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "flags",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Flag - Atualizar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{flag-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"description\": \"Flag atualizada pelo Postman\",\r\n  \"is_enabled\": false\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url_flag}}/flags/flag-teste",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "flags",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Flag - Excluir",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{flag-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_flag}}/flags/flag-teste",
+              "host": [
+                "{{base_url_flag}}"
+              ],
+              "path": [
+                "flags",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "targeting-service",
+      "item": [
+        {
+          "name": "Targeting - Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Targeting - Criar regra",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{targeting-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"flag_name\": \"{{flag_name}}\",\r\n  \"is_enabled\": true,\r\n  \"rules\": {\r\n    \"type\": \"PERCENTAGE\",\r\n    \"value\": 50\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url_targeting}}/rules",
+              "host": [
+                "{{base_url_targeting}}"
+              ],
+              "path": [
+                "rules"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Targeting - Buscar regra",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{targeting-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_targeting}}/rules/flag-teste",
+              "host": [
+                "{{base_url_targeting}}"
+              ],
+              "path": [
+                "rules",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Targeting - Atualizar regra",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{targeting-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"rules\": {\r\n    \"type\": \"PERCENTAGE\",\r\n    \"value\": 75\r\n  },\r\n  \"is_enabled\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url_targeting}}/rules/flag-teste",
+              "host": [
+                "{{base_url_targeting}}"
+              ],
+              "path": [
+                "rules",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Targeting - Excluir regra",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{targeting-service-key}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_targeting}}/rules/flag-teste",
+              "host": [
+                "{{base_url_targeting}}"
+              ],
+              "path": [
+                "rules",
+                "flag-teste"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "evaluation-service",
+      "item": [
+        {
+          "name": "Evaluation - Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_evaluation}}/health",
+              "host": [
+                "{{base_url_evaluation}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Evaluation - Avaliar flag",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_evaluation}}/evaluate?user_id=user&flag_name=flag-teste",
+              "host": [
+                "{{base_url_evaluation}}"
+              ],
+              "path": [
+                "evaluate"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "user"
+                },
+                {
+                  "key": "flag_name",
+                  "value": "flag-teste"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "analytics-service",
+      "item": [
+        {
+          "name": "Analytics - Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_analytics}}/health",
+              "host": [
+                "{{base_url_analytics}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url_auth",
+      "value": ""
+    },
+    {
+      "key": "base_url_flag",
+      "value": ""
+    },
+    {
+      "key": "base_url_targeting",
+      "value": ""
+    },
+    {
+      "key": "base_url_evaluation",
+      "value": ""
+    },
+    {
+      "key": "base_url_analytics",
+      "value": ""
+    },
+    {
+      "key": "MASTER_KEY",
+      "value": ""
+    },
+    {
+      "key": "flag-service-key",
+      "value": ""
+    },
+    {
+      "key": "targeting-service-key",
+      "value": ""
+    }
+  ]
+}
