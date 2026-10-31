@@ -117,7 +117,22 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-    
+
+  analytics-app:
+    build: ./analytics-service-main
+    ports:
+      - "8005:8005"
+    environment:
+      PORT: "8005"
+      AWS_SQS_URL: https://sqs.us-east-1.amazonaws.com/570760125017/evaluation-events
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
+      AWS_DYNAMODB_TABLE: evaluation-events
+    depends_on:
+      evaluation-app:
+        condition: service_started
 
 volumes:
   auth_postgres_data:
