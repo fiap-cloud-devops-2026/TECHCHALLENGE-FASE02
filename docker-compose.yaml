@@ -1,0 +1,65 @@
+services:
+  auth-app:
+    build: ./auth-service-main
+    ports:
+     - "8001:8001"
+    environment:
+      PORT: "8001"
+      DATABASE_URL: "postgres://auth_user:local_dev_password@auth-db:5432/auth_db"
+      MASTER_KEY: local_dev_master_key_change_me
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  auth-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: auth_user
+      POSTGRES_PASSWORD: local_dev_password
+    volumes:
+      - auth_postgres_data:/var/lib/postgresql/data
+      - ./auth-service-main/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  flag-app:
+    build: ./flag-service-main
+    ports:
+     - "8002:8002"
+    environment:
+      PORT: "8002"
+      DATABASE_URL: "postgres://flag_user:local_dev_password@flag-db:5432/flag_db"
+      AUTH_SERVICE_URL: "http://auth-app:8001"
+    depends_on:
+      flag-db:
+        condition: service_healthy
+      auth-app:
+        condition: service_started  
+
+  flag-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: flag_db
+      POSTGRES_USER: flag_user
+      POSTGRES_PASSWORD: local_dev_password
+    volumes:
+      - flag_postgres_data:/var/lib/postgresql/data
+      - ./flag-service-main/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flag_user -d flag_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  auth_postgres_data:
+  flag_postgres_data:
+
+
+
+        
