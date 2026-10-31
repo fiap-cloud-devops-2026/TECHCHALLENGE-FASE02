@@ -6,7 +6,7 @@ services:
     environment:
       PORT: "8001"
       DATABASE_URL: "postgres://auth_user:local_dev_password@auth-db:5432/auth_db"
-      MASTER_KEY: local_dev_master_key_change_me
+      MASTER_KEY: TESTE_LOCAL
     depends_on:
       auth-db:
         condition: service_healthy
@@ -83,12 +83,44 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  evaluation-app:
+    build: ./evaluation-service-main
+    ports:
+      - "8004:8004"
+    environment:
+      PORT: "8004"
+      REDIS_URL: redis://redis:6379
+      FLAG_SERVICE_URL: http://flag-app:8002
+      TARGETING_SERVICE_URL: http://targeting-app:8003
+      SERVICE_API_KEY: tm_key_c0b305582aaeb6be6e69f4a092fb66f33fc347dc05d86dd49af9727636d6d2b5
+      AWS_SQS_URL: ""
+      AWS_REGION: us-east-1
+    depends_on:
+      redis:
+        condition: service_healthy
+      flag-app:
+        condition: service_started
+      targeting-app:
+        condition: service_started
+  
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     
 
 volumes:
   auth_postgres_data:
   flag_postgres_data:
   targeting_postgres_data:
+  redis_data:
 
 
 
