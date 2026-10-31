@@ -94,8 +94,11 @@ services:
       FLAG_SERVICE_URL: http://flag-app:8002
       TARGETING_SERVICE_URL: http://targeting-app:8003
       SERVICE_API_KEY: tm_key_c0b305582aaeb6be6e69f4a092fb66f33fc347dc05d86dd49af9727636d6d2b5
-      AWS_SQS_URL: ""
+      AWS_SQS_URL: https://sqs.us-east-1.amazonaws.com/570760125017/evaluation-events
       AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
     depends_on:
       redis:
         condition: service_healthy
